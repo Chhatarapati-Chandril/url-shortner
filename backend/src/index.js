@@ -1,5 +1,6 @@
 import connectDB from "./db/db.js"
 import app from "./app.js"
+import { devLog } from "./utils/logger.js"
 
 const port = process.env.PORT || 8001
 
@@ -16,7 +17,7 @@ process.on("uncaughtException", (err) => {
 connectDB()
 .then(() => {
     app.listen(port, () => {
-        console.log(`⚙️ Server running at http://localhost:${port}`)
+        devLog(`⚙️ Server running at http://localhost:${port}`)
     })
 })
 .catch((error) => {
