@@ -11,6 +11,7 @@ app.use(cors({
 
 app.use(express.json({ limit: JSON_LIMIT }))
 app.use(express.urlencoded({ extended: true, limit: JSON_LIMIT }))
+app.set("trust proxy", true);
 
 // routes import
 import urlRouter from "./routes/url.routes.js"

@@ -1,3 +1,4 @@
+import validator from "validator"
 import ApiError from "../utils/ApiError.js";
 
 const validateCreateShortUrl = ({ redirectUrl }) => {
@@ -10,19 +11,16 @@ const validateCreateShortUrl = ({ redirectUrl }) => {
         throw new ApiError(400, "redirectUrl must be a string");
     }
 
-    const cleanedUrl = redirectUrl.trim();
+    const trimmedUrl = redirectUrl.trim();
 
-    if (cleanedUrl.length === 0) {
-        throw new ApiError(400, "redirectUrl cannot be empty");
+    if (!validator.isURL(trimmedUrl, {
+        protocols: ["http", "https"],
+        require_protocol: true
+    })) {
+        throw new ApiError(400, "Invalid URL format")
     }
 
-    try {
-        new URL(cleanedUrl);
-    } catch (error) {
-        throw new ApiError(400, "Invalid URL")
-    }
-
-    return cleanedUrl;
+    return trimmedUrl;
 }
 
 export default validateCreateShortUrl
